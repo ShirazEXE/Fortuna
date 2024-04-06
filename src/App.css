@@ -1,0 +1,72 @@
+body {
+  height: 100vh;
+  width: 100vw;
+  /* background-image: url('../public/Money-moves.png'); */
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.App {
+  height: 90vh;
+  width: 100vw;
+  color: black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.App h1 {
+  margin-left: 60%;
+  margin-top: 7%;
+  font-size: 80px;
+}
+.App p {
+  margin-left: 30%;
+  margin-top: 7%;
+  font-size: 20px;
+}
+
+.background {
+  height: 100%;
+  width: 100%;
+  background-image: url('../public/Money-moves.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: left 40%;
+  height: 100vh;
+  width: 100vw;
+  overflow-y: auto;
+  background-color: rgb(251, 192, 33);
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: white; /* Set background color to white */
+  border-bottom: 1px solid #ddd;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 20px;
+  background-color: rgba(128, 128, 128, 0.2);
+  margin-top: 20px;
+}
+
+.container1 {
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+/* Add these styles to increase the size of the anchor tag button */
+.button {
+  font-size: 90px; /* Adjust the font size as needed */
+  padding: 10px 20px; /* Adjust the padding to increase button size */
+  /* Add any other relevant styling here */
+}

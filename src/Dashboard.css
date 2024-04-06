@@ -1,0 +1,85 @@
+/* Dashboard.css */
+
+.dashboard-container {
+    display: flex;
+    flex-direction: row; /* Change to row to align items side by side */
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100vh;
+    padding: 20px;
+    position: relative;
+}
+
+.blur-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../public/Money-moves.png');
+    background-size: cover;
+    filter: blur(5px);
+    z-index: -1;
+}
+
+.form-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px; /* Add margin for spacing */
+}
+
+.result-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex-grow: 1; /* Take remaining space */
+    align-self: flex-start; /* Align to the start of the flex container */
+}
+
+.result-content {
+    margin-right: -20px; /* Compensate for the padding */
+    text-align: left; /* Align content to the left */
+}
+
+.form-container form {
+    width: 100%;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.form-container input {
+    width: calc(100% - 22px);
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+    margin-top: 10px;
+}
+
+.form-container button:hover {
+    background-color: #0056b3;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+}
