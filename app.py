@@ -3,7 +3,12 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import json
 import datetime
-from financial_model import FinancialRatios
+import anthropic
+import os
+
+os.environ['ANTHROPIC_API_KEY'] = "your_key_here" #sk-ant-api0 3-6d3hEbaS 09O2lM7alzYo-I19suQ ibskwwbb c7xgX A094nxNzzgeKJ1  -3D9boBLuQzq5Y SVwbS7yn Mzj28lnf6Q-rJRzSAAA 
+                                                  #remove spaces from given API key and use it
+client = anthropic.Anthropic(api_key=os.environ.get('ANTHROPIC_API_KEY'))
 
 app = Flask(__name__)
 CORS(app)
@@ -120,6 +125,27 @@ def insert_financial_ratios():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+def prompter(salary, savings, job, current_ratio, quick_ratio, debt_to_equity_ratio, profit_margin_ratio, roe_ratio, roa_ratio, interest_coverage_ratio):
+    preprompt = "You are to act as a financial advisor to a user. All customers are Indians, so keep the context India-specific. Do not number the points."
+    prompt = f"""
+    Here's a customer seeking financial advice:
+    
+Monthly income: {salary} rupees
+Monthly savings: {savings} rupees
+Occupation: {job}
+
+Based on the provided financial information, the key ratios are:
+Current Ratio: {current_ratio}
+Quick Ratio: {quick_ratio}
+Debt to Equity Ratio: {debt_to_equity_ratio}
+Profit Margin Ratio: {profit_margin_ratio}
+Return on Equity (ROE) Ratio: {roe_ratio}
+Return on Assets (ROA) Ratio: {roa_ratio}
+Interest Coverage Ratio: {interest_coverage_ratio}
+    """
+
+    return preprompt + prompt
+
 @app.route('/assess_financial_condition', methods=['POST'])
 def assess_financial_condition():
     try:
@@ -168,7 +194,44 @@ def assess_financial_condition():
         return jsonify({"error": str(e)})
 
 
+@app.route('/get_suggestion', methods=['POST'])
+def get_suggestion():
+    try:
+        data = request.get_json()
+        salary = data.get('salary')
+        savings = data.get('savings')
+        job = data.get('job')
 
+        data_path = "/Users/samarthgayakhe/Documents/test/test/financial_data.json"
+        with open(data_path, 'r') as file:
+            data = json.load(file)
+        
+        current_ratio = data.get('current_ratio')
+        quick_ratio = data.get('quick_ratio')
+        debt_to_equity_ratio = data.get('debt_to_equity_ratio')
+        profit_margin_ratio = data.get('profit_margin_ratio')
+        roe_ratio = data.get('roe_ratio')
+        roa_ratio = data.get('roa_ratio')
+        interest_coverage_ratio = data.get('interest_coverage_ratio')
+
+        # Generate the prompt
+        prompt = prompter(salary, savings, job, current_ratio, quick_ratio, debt_to_equity_ratio, profit_margin_ratio, roe_ratio, roa_ratio, interest_coverage_ratio)
+
+        # Send the prompt to the Anthropoc model
+        message = client.messages.create(
+            model="claude-2.1",
+            max_tokens=1024,
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        # Get the response text from the message
+
+        suggestion = message.content[0].text
+
+
+        return jsonify({"suggestion": suggestion})
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 
 if __name__ == '__main__':
